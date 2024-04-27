@@ -1,10 +1,10 @@
 "use client";
 
-import { Message } from "@/_components/messages";
+import { Message } from "@/app/_components/message";
 import { useChat } from "ai/react";
 
 export default function Home() {
-  const { messages, input, handleInputChange, handleSubmit, error } = useChat();
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
 
   return (
     <main>
