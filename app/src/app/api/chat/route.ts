@@ -3,7 +3,7 @@ import {
   InvokeModelWithResponseStreamCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 import { AWSBedrockAnthropicMessagesStream, StreamingTextResponse } from "ai";
-import { Message } from "ai/react";
+import { experimental_buildAnthropicMessages } from "ai/prompts";
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = "edge";
@@ -20,17 +20,10 @@ export async function POST(req: Request) {
   // Extract the `prompt` from the body of the request
   const { messages } = await req.json();
 
-  const message = messages[messages.length - 1] as Message;
-
   const payload = {
     anthropic_version: "bedrock-2023-05-31",
     max_tokens: 1000,
-    messages: [
-      {
-        role: "user",
-        content: [{ type: "text", text: message.content }],
-      },
-    ],
+    messages: experimental_buildAnthropicMessages(messages),
   };
 
   // Ask Claude for a streaming chat completion given the prompt
@@ -48,7 +41,5 @@ export async function POST(req: Request) {
 
   // Respond with the stream
   const resp = new StreamingTextResponse(stream);
-  console.log("-------------------");
-  console.log("Response", resp.body);
   return resp;
 }
