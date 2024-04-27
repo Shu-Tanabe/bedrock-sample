@@ -13,11 +13,14 @@ export default function Home() {
       ))}
 
       <form onSubmit={handleSubmit}>
-        <label>
-          Say something...
-          <input value={input} onChange={handleInputChange} />
-        </label>
-        <button type="submit">Send</button>
+        <div>
+          <textarea
+            value={input}
+            onChange={handleInputChange}
+            placeholder="議題の内容を入力してください"
+          />
+        </div>
+        <button type="submit">要約</button>
       </form>
     </main>
   );
