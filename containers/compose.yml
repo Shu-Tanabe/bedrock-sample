@@ -29,6 +29,21 @@ services:
       - app_bedrock_summarization_node_modules:/summarization/node_modules
     networks:
       - apps
+  app_bedrock_rag:
+    container_name: app_bedrock_rag
+    env_file:
+      - .env.local
+    build:
+      context: ../app/rag
+      dockerfile: ../rag/Dockerfile
+      target: dev
+    ports:
+      - 3302:3302
+    volumes:
+      - ../app/rag:/app
+      - app_bedrock_rag_node_modules:/rag/node_modules
+    networks:
+      - apps
 
 networks:
   apps:
@@ -37,3 +52,4 @@ networks:
 volumes:
   app_bedrock_chat_node_modules:
   app_bedrock_summarization_node_modules:
+  app_bedrock_rag_node_modules:
