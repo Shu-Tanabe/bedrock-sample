@@ -1,4 +1,3 @@
-import { summarization } from "@/app/_prompts/summarization";
 import {
   BedrockRuntimeClient,
   InvokeModelWithResponseStreamCommand,
@@ -6,7 +5,6 @@ import {
 import { AWSBedrockAnthropicMessagesStream, StreamingTextResponse } from "ai";
 import { experimental_buildAnthropicMessages } from "ai/prompts";
 import { Message } from "ai/react";
-import { enhanceMessage } from "@/app/_libs/enhanceMessage";
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = "edge";
@@ -21,14 +19,9 @@ const bedrockClient = new BedrockRuntimeClient({
 
 export async function POST(req: Request) {
   // Extract the `prompt` from the body of the request
-  const { messages, type } = await req.json();
+  const { messages } = await req.json();
 
   const reqMessages = messages as Message[];
-
-  reqMessages[reqMessages.length - 1].content = enhanceMessage(
-    reqMessages[reqMessages.length - 1],
-    type
-  );
 
   const payload = {
     anthropic_version: "bedrock-2023-05-31",
